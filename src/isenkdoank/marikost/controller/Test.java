@@ -12,4 +12,8 @@ import isenkdoank.marikost.assets.*;
  */
 public class Test {
     
+    public static void main(String[] args){
+ 
+        System.out.println("bangponcoe123");
+    }
 }
