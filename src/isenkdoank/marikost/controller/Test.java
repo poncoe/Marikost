@@ -15,5 +15,6 @@ public class Test {
     public static void main(String[] args){
  
         System.out.println("bangponcoe123");
+        System.out.println("Hipsi malem taun baruan jadi gak?");
     }
 }
