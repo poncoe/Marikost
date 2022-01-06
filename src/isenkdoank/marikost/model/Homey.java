@@ -12,10 +12,8 @@ public class Homey {
     int id, kontakpemilik, harga;
     String username, pemilik, jeniskos, namakos, deskripsi, sisa, wilayah, alamat, gambar;
 
-    public Homey(int id, int kontakpemilik, int harga, String username, String pemilik, String jeniskos, String namakos, String deskripsi, String sisa, String wilayah, String alamat, String gambar) {
+    public Homey(int id, String username, String pemilik, String jeniskos, String namakos, String deskripsi, String sisa, String wilayah, String alamat, int kontakpemilik, int harga, String gambar) {
         this.id = id;
-        this.kontakpemilik = kontakpemilik;
-        this.harga = harga;
         this.username = username;
         this.pemilik = pemilik;
         this.jeniskos = jeniskos;
@@ -24,6 +22,8 @@ public class Homey {
         this.sisa = sisa;
         this.wilayah = wilayah;
         this.alamat = alamat;
+        this.kontakpemilik = kontakpemilik;
+        this.harga = harga;
         this.gambar = gambar;
     }
 
@@ -31,7 +31,7 @@ public class Homey {
         return id;
     }
 
-    public int getKontakpemilik() {
+    public int getKontakPemilik() {
         return kontakpemilik;
     }
 
@@ -47,11 +47,11 @@ public class Homey {
         return pemilik;
     }
 
-    public String getJeniskos() {
+    public String getJenisKos() {
         return jeniskos;
     }
 
-    public String getNamakos() {
+    public String getNamaKos() {
         return namakos;
     }
 
