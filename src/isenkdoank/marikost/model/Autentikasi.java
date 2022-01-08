@@ -9,22 +9,18 @@ package isenkdoank.marikost.model;
  * @author poncoe
  */
 public class Autentikasi {
-    int id, notelp;
-    String username, password, jenisakun, jeniskelamin, nama, alamat;
+    int notelp;
+    String username, password, jenisakun, jeniskelamin, nama, alamat, email;
     
-     public Autentikasi(int id, String username, String password, String jenisakun, String jeniskelamin, String nama, String alamat, int notelp){
-        this.id = id;
-        this.nama = nama;
+     public Autentikasi(String username, String password, String jenisakun, String jeniskelamin, String nama, String alamat, int notelp, String email){
+        this.username = username;
         this.password = password;
         this.jenisakun = jenisakun;
         this.jeniskelamin = jeniskelamin;
         this.nama = nama;
         this.alamat = alamat;
         this.notelp = notelp;
-    }
-     
-     public int getId() {
-        return id;
+        this.email = email;
     }
 
     public int getNotelp() {
@@ -53,6 +49,10 @@ public class Autentikasi {
 
     public String getAlamat() {
         return alamat;
+    }
+
+    public String getEmail() {
+        return email;
     }
     
 }
