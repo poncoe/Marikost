@@ -63,7 +63,7 @@ public class Auth {
         con = koneksiAuth.getConnection();
 
         // membuat query untuk tambah data akun
-        String kueri = "INSERT INTO autentikasi (username,password,jenis_akun,jenis_kelamin,nama,alamat,notelp) VALUES (?,?,?,?,?,?)";
+        String kueri = "INSERT INTO autentikasi (username,password,jenis_akun,jenis_kelamin,nama,alamat,notelp,email) VALUES (?,?,?,?,?,?,?,?)";
 
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
         PreparedStatement ps = con.prepareStatement(kueri);
@@ -74,6 +74,7 @@ public class Auth {
         ps.setString(5, auth.getNama());
         ps.setString(6, auth.getAlamat());
         ps.setInt(7, auth.getNotelp());
+        ps.setString(8, auth.getEmail());
 
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();
