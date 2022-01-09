@@ -5,6 +5,8 @@
 package isenkdoank.marikost.controller;
 
 import isenkdoank.marikost.model.Autentikasi;
+import isenkdoank.marikost.model.User;
+import isenkdoank.marikost.view.Login;
 import isenkdoank.marikost.view.MainActivity;
 import isenkdoank.marikost.view.ProfileMitra;
 import java.sql.Connection;
@@ -57,13 +59,13 @@ public class Auth {
     }
 
     // tambah data akun
-    public boolean tambahAkun(Autentikasi auth) throws SQLException {
+    public boolean tambahAkun(User auth) throws SQLException {
 
         // membuka koneksi ke database
         con = koneksiAuth.getConnection();
 
         // membuat query untuk tambah data akun
-        String kueri = "INSERT INTO autentikasi (username,password,jenis_akun,jenis_kelamin,nama,alamat,notelp,email) VALUES (?,?,?,?,?,?,?,?)";
+        String kueri = "INSERT INTO autentikasi (username,password,jenis_akun,jenis_kelamin,nama,alamat,notelp,email,status_bayar) VALUES (?,?,?,?,?,?,?,?,?)";
 
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
         PreparedStatement ps = con.prepareStatement(kueri);
@@ -75,6 +77,7 @@ public class Auth {
         ps.setString(6, auth.getAlamat());
         ps.setInt(7, auth.getNotelp());
         ps.setString(8, auth.getEmail());
+        ps.setString(9, auth.getStatusbayar());
 
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();
@@ -89,60 +92,77 @@ public class Auth {
     }
 
     // Login Akun
-    public ArrayList<Auth> loginAkun(String username, String password) throws SQLException {
-        ArrayList<Auth> login = new ArrayList<>();
+    public boolean LoginAkun(String username, String password) {
+        PreparedStatement ps;
+        ResultSet rs;
 
-        // membuka koneksi
-        con = koneksiAuth.getConnection();
+        boolean cekLogin = false;
 
-        // membuat query untuk lihat kosan & kontrakan
-        String kueri = "SELECT * FROM `autentikasi` WHERE `username` =? AND `password` =?";
+        // queri untuk mengecek apakah username & password ada di database di table autentikasi
+        String query = "SELECT * FROM `autentikasi` WHERE `username` =? AND `password` =?";
 
-        PreparedStatement ps = con.prepareStatement(kueri);
+        // kodingan untuk pengecekan (jika user tidak mengisi field)
+        if (username.equals("")) {
+            JOptionPane.showMessageDialog(null, "Masukan Username!");
+        } else if (password.equals("")) {
+            JOptionPane.showMessageDialog(null, "Masukan Kata Sandi!");
+        } else {
+            try {
+                ps = Koneksi.getConnection().prepareStatement(query);
 
-        // mengeksekusi query
-        ResultSet rs = ps.executeQuery();
+                ps.setString(1, username);
+                ps.setString(2, password);
 
-        ps = Koneksi.getConnection().prepareStatement(kueri);
+                // mengeksekusi queri
+                rs = ps.executeQuery();
 
-        ps.setString(1, username);
-        ps.setString(2, password);
+                // jika ada & dicek, maka akan berhasil login dan masuk ke halaman selanjutnya
+                if (rs.next()) {
 
-        // mengeksekusi queri
-        rs = ps.executeQuery();
+                    // Jika Admin Sudah Bayar ke Marikost
+                    if (rs.getString("jenis_akun").equals("Admin") && rs.getString("status_bayar").equals("Sudah")) {
+                        MainActivity mainAdmin = new MainActivity();
+                        mainAdmin.setVisible(true);
+                        mainAdmin.pack();
+                        mainAdmin.setLocationRelativeTo(null);
+                        mainAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        mainAdmin.nama_user.setText("Hi, " + rs.getString("nama") + "");
+                        cekLogin = true;
 
-        // jika ada & tervalidasi sesuai jenis, maka akan berhasil login dan masuk ke halaman admin / user
-        if (rs.next()) {
-            if (rs.getString("level").equals("admin")) {
-                ProfileMitra mainAdmin = new ProfileMitra();
-                mainAdmin.setVisible(true);
-                mainAdmin.pack();
-                mainAdmin.setLocationRelativeTo(null);
-                mainAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                mainAdmin.nama_mitra.setText("Hi, " + username + "");
-                mainAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        // Jika Admin Belum Bayar ke Marikost
+                    } else if (rs.getString("jenis_akun").equals("Admin") && rs.getString("status_bayar").equals("Belum")) {
+                        MainActivity mainPreAdmin = new MainActivity();
+                        mainPreAdmin.setVisible(true);
+                        mainPreAdmin.pack();
+                        mainPreAdmin.setLocationRelativeTo(null);
+                        mainPreAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        mainPreAdmin.nama_user.setText("Hi, " + rs.getString("nama") + "");
+                        mainPreAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        cekLogin = true;
 
-            } else if (rs.getString("level").equals("user")) {
-                MainActivity mainUser = new MainActivity();
-                mainUser.setVisible(true);
-                mainUser.pack();
-                mainUser.setLocationRelativeTo(null);
-                mainUser.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                mainUser.nama_user.setText("Hi, " + username + "");
+                        // User
+                    } else if (rs.getString("jenis_akun").equals("User")) {
+                        MainActivity mainUser = new MainActivity();
+                        mainUser.setVisible(true);
+                        mainUser.pack();
+                        mainUser.setLocationRelativeTo(null);
+                        mainUser.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        mainUser.nama_user.setText("Hi, " + rs.getString("nama") + "");
+                        mainUser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                        cekLogin = true;
 
-                // jika tidak berhasil / tidak terdaftar maka akan muncul dialog jika user belom terdaftar & salah
-            } else {
-                JOptionPane.showMessageDialog(null, "Akun Belum Terdaftar / Nama Pengguna atau Kata Sandi Salah!", "Login Gagal!", 2);
+                        // jika tidak berhasil / tidak terdaftar maka akan muncul dialog jika user belom terdaftar & salah
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Akun Belum Terdaftar / Nama Pengguna atau Kata Sandi Salah!", "Login Gagal!", 2);
+                        cekLogin = false;
+                    }
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(Auth.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
-        // menutup result set, preparedstatement dan koneksi
-        rs.close();
-        ps.close();
-        con.close();
-
-        // mengembalikan nilai
-        return login;
-
+        return cekLogin;
     }
+
 }
