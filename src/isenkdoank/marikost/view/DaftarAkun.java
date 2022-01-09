@@ -6,6 +6,7 @@ package isenkdoank.marikost.view;
 
 import isenkdoank.marikost.controller.Auth;
 import isenkdoank.marikost.model.Autentikasi;
+import isenkdoank.marikost.model.User;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class DaftarAkun extends javax.swing.JFrame {
         setResizable(false);
     }
 
-    // Inisialisasi Database
+    // Inisialisasi Controller Auth
     private Auth auth = new Auth();
 
     /**
@@ -363,8 +364,9 @@ public class DaftarAkun extends javax.swing.JFrame {
         String alamat = txtAlamat.getText();
         Integer notelepon = Integer.parseInt(txtNotelp.getText());
         String email = txtEmail.getText();
+        String statusbayar = "Belum";
 
-        Autentikasi objekAuth = new Autentikasi(username, password, jenisakun, jeniskelamin, nama, alamat, notelepon, email);
+        User objekUser = new User(username, password, jenisakun, nama, jeniskelamin, alamat, notelepon, email, statusbayar);
 
         if (username.equals("")) {
             JOptionPane.showMessageDialog(null, "Masukan Username!");
@@ -382,7 +384,7 @@ public class DaftarAkun extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Username Sudah Ada / Sudah Teregistrasi!");
         } else if (btnDaftar.getText().equals("Daftar Akun")) {
             try {
-                if (auth.tambahAkun(objekAuth)) {
+                if (auth.tambahAkun(objekUser)) {
                     JOptionPane.showMessageDialog(this, "Registrasi Berhasil, Silahkan Login!");
                     new Login().setVisible(true);
                     this.dispose();
