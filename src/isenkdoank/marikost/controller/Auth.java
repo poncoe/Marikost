@@ -8,6 +8,7 @@ import isenkdoank.marikost.model.Autentikasi;
 import isenkdoank.marikost.model.User;
 import isenkdoank.marikost.view.Login;
 import isenkdoank.marikost.view.MainActivity;
+import isenkdoank.marikost.view.Pembayaran;
 import isenkdoank.marikost.view.ProfileMitra;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -125,18 +126,17 @@ public class Auth {
                         mainAdmin.setVisible(true);
                         mainAdmin.pack();
                         mainAdmin.setLocationRelativeTo(null);
-                        mainAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         mainAdmin.nama_user.setText("Hi, " + rs.getString("nama") + "");
                         cekLogin = true;
 
                         // Jika Admin Belum Bayar ke Marikost
                     } else if (rs.getString("jenis_akun").equals("Admin") && rs.getString("status_bayar").equals("Belum")) {
-                        MainActivity mainPreAdmin = new MainActivity();
+                        Pembayaran mainPreAdmin = new Pembayaran();
                         mainPreAdmin.setVisible(true);
                         mainPreAdmin.pack();
                         mainPreAdmin.setLocationRelativeTo(null);
-                        mainPreAdmin.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        mainPreAdmin.nama_user.setText("Hi, " + rs.getString("nama") + "");
+                        mainPreAdmin.txtUsername.setText("" + rs.getString("username") + "");
+                        mainPreAdmin.txtStatusBayar.setText("" + rs.getString("status_bayar") + "");
                         mainPreAdmin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         cekLogin = true;
 
@@ -146,7 +146,6 @@ public class Auth {
                         mainUser.setVisible(true);
                         mainUser.pack();
                         mainUser.setLocationRelativeTo(null);
-                        mainUser.setExtendedState(JFrame.MAXIMIZED_BOTH);
                         mainUser.nama_user.setText("Hi, " + rs.getString("nama") + "");
                         mainUser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         cekLogin = true;
