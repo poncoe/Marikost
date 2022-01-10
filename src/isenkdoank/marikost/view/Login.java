@@ -230,12 +230,18 @@ public class Login extends javax.swing.JFrame {
         // mengambil data / nilai dari field username & pass menggunakan getText
         String username = txtUsername.getText();
         String password = String.valueOf(txtPassword.getPassword());
-        
-        if(auth.LoginAkun(username, password)){
-            this.dispose();
+
+        if (username.equals("")) {
+            JOptionPane.showMessageDialog(null, "Masukan Username!");
+        } else if (password.equals("")) {
+            JOptionPane.showMessageDialog(null, "Masukan Password!");
         } else {
-            JOptionPane.showMessageDialog(null, "Akun Belum Terdaftar / Nama Pengguna atau Kata Sandi Salah!", "Login Gagal!", 2);
-        }    
+            if (auth.LoginAkun(username, password)) {
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Akun Belum Terdaftar / Nama Pengguna atau Kata Sandi Salah!", "Login Gagal!", 2);
+            }
+        }
     }//GEN-LAST:event_btnMasukActionPerformed
 
     private void btnLupaPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLupaPassActionPerformed
