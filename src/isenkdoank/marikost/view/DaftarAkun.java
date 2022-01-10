@@ -5,7 +5,8 @@
 package isenkdoank.marikost.view;
 
 import isenkdoank.marikost.controller.Auth;
-import isenkdoank.marikost.model.Autentikasi;
+import isenkdoank.marikost.controller.PembayaranController;
+import isenkdoank.marikost.model.Transaksi;
 import isenkdoank.marikost.model.User;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -39,8 +40,9 @@ public class DaftarAkun extends javax.swing.JFrame {
         setResizable(false);
     }
 
-    // Inisialisasi Controller Auth
+    // Inisialisasi Controller Auth & Pembayaran
     private Auth auth = new Auth();
+    private PembayaranController payments = new PembayaranController();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -367,6 +369,7 @@ public class DaftarAkun extends javax.swing.JFrame {
         String statusbayar = "Belum";
 
         User objekUser = new User(username, password, jenisakun, nama, jeniskelamin, alamat, notelepon, email, statusbayar);
+        Transaksi objekTransaksi = new Transaksi(username, password, statusbayar);
 
         if (username.equals("")) {
             JOptionPane.showMessageDialog(null, "Masukan Username!");
@@ -384,13 +387,36 @@ public class DaftarAkun extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Username Sudah Ada / Sudah Teregistrasi!");
         } else if (btnDaftar.getText().equals("Daftar Akun")) {
             try {
-                if (auth.tambahAkun(objekUser)) {
-                    JOptionPane.showMessageDialog(this, "Registrasi Berhasil, Silahkan Login!");
-                    new Login().setVisible(true);
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Registrasi Gagal!");
+//                if (auth.tambahAkun(objekUser) && payments.tambahPembayaran(objekTransaksi)) {
+//                    JOptionPane.showMessageDialog(this, "Registrasi Berhasil, Silahkan Login!");
+//                    new Login().setVisible(true);
+//                    this.dispose();
+//                } else {
+//                    JOptionPane.showMessageDialog(this, "Registrasi Gagal!");
+//                }
+                switch (cboxJenisAkun.getSelectedIndex()) {
+                    case 0 -> {
+                        if (auth.tambahAkun(objekUser)) {
+                            JOptionPane.showMessageDialog(this, "Registrasi Berhasil, Silahkan Login!");
+                            new Login().setVisible(true);
+                            this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registrasi Gagal!");
+                        }
+                        break;
+                    }
+                    case 1 -> {
+                        if (auth.tambahAkun(objekUser) && payments.tambahPembayaran(objekTransaksi)) {
+                            JOptionPane.showMessageDialog(this, "Registrasi Berhasil, Silahkan Login!");
+                            new Login().setVisible(true);
+                            this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Registrasi Gagal!");
+                        }
+                        break;
+                    }
                 }
+
             } catch (SQLException ex) {
                 Logger.getLogger(DaftarAkun.class.getName()).log(Level.SEVERE, null, ex);
             }
