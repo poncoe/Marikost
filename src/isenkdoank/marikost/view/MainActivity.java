@@ -28,14 +28,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class MainActivity extends javax.swing.JFrame {
 
-    //Buat Tabel
-    private final DefaultTableModel model = new DefaultTableModel();
-
     /**
      * Creates new form index
      */
     public MainActivity() {
         initComponents();
+
+        // memanggil prosedur tampil table
+        tampilTable();
 
         // mengambil ukuran layar
         Dimension layar = Toolkit.getDefaultToolkit().getScreenSize();
@@ -50,35 +50,42 @@ public class MainActivity extends javax.swing.JFrame {
         this.setResizable(false);
 
         label_username.setVisible(false);
-
-        model.addColumn("No");
-        model.addColumn("Nama Kos");
-        model.addColumn("Pemilik");
-        model.addColumn("Jenis Kos");
-        model.addColumn("Wilayah");
-        model.addColumn("Alamat");
-        model.addColumn("Deksripsi");
-        model.addColumn("Kontak Pemilik");
-        model.addColumn("Harga");
-
-        tabelKosan.setModel(model);
     }
 
     private Data koneksi = new Data();
 
-    private void populateTable() {
-        model.setRowCount(0);
+    private void tampilTable() {
+        // membuat tampilan model tabel
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Username");
+        model.addColumn("Pemilik");
+        model.addColumn("Nama Kos");
+        model.addColumn("Jenis Kos");
+        model.addColumn("Deskripsi");
+        model.addColumn("Wilayah");
+        model.addColumn("Kontak");
+        model.addColumn("Alamat");
+        model.addColumn("Harga");
+
+        //menampilkan data database kedalam tabel
         try {
             int no = 1;
-            ArrayList<Homey> datakosan = koneksi.tampilData();
-            for (Homey k : datakosan) {
-                Object[] isiData = {no++, k.getNamaKos(), k.getPemilik(), k.getJenisKos(), k.getWilayah(),
-                    k.getAlamat(), k.getDeskripsi(), k.getKontakPemilik(), k.getHarga()};
-                model.addRow(isiData);
+            // query sql untuk menampilkan semua data yang ada di table homey
+            String sql = "select * from homey";
+            // penghubung koneksi ke localhost mysql
+            java.sql.Connection conn = (Connection) Koneksi.getConnection();
+            java.sql.Statement stm = conn.createStatement();
+            // mengeksekusi sql
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            // membuat perulangan untuk mencetak data yang ada didalam sql ke dalam tabel
+            while (res.next()) {
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
             }
-        } catch (SQLException ex) {
-            System.out.println("Eksepsi: " + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Exception: " + ex.getMessage());
+            tabelKosan.setModel(model);
+            // membuat table menjadi responsif
+            tabelKosan.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        } catch (Exception e) {
         }
     }
 
@@ -118,6 +125,7 @@ public class MainActivity extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         radiomurah = new javax.swing.JRadioButton();
         radiomahal = new javax.swing.JRadioButton();
+        btnRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Marikost");
@@ -243,6 +251,13 @@ public class MainActivity extends javax.swing.JFrame {
             }
         });
 
+        btnRefresh.setText("Refresh Table");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -250,25 +265,33 @@ public class MainActivity extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtCariWilayah)
-                    .addComponent(btnTampilWilayah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator2)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnFilterPenghuni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSeparator4)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
+                            .addComponent(jSeparator3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCariWilayah)
+                            .addComponent(btnTampilWilayah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jSeparator2)
+                            .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnFilterPenghuni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addComponent(jSeparator4)
+                                .addGap(279, 279, 279))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)))
-                            .addComponent(radiomurah)
-                            .addComponent(radiomahal))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(jLabel3)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel4)))
+                                    .addComponent(radiomurah)
+                                    .addComponent(radiomahal))
+                                .addGap(0, 114, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,6 +320,8 @@ public class MainActivity extends javax.swing.JFrame {
                 .addComponent(btnFilterPenghuni)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRefresh)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -307,8 +332,11 @@ public class MainActivity extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ads)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 594, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ads)
+                        .addGap(45, 45, 45)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -364,6 +392,19 @@ public class MainActivity extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPetunjukMouseClicked
 
     private void btnTampilWilayahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTampilWilayahActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Username");
+        model.addColumn("Pemilik");
+        model.addColumn("Nama Kos");
+        model.addColumn("Jenis Kos");
+        model.addColumn("Deskripsi");
+        model.addColumn("Wilayah");
+        model.addColumn("Kontak");
+        model.addColumn("Alamat");
+        model.addColumn("Harga");
+
         String wilayah = txtCariWilayah.getText();
         if (wilayah.equals("")) {
             JOptionPane.showMessageDialog(null, "Kolom Wilayah Tidak Boleh Kosong!");
@@ -380,7 +421,7 @@ public class MainActivity extends javax.swing.JFrame {
                 java.sql.ResultSet res = stm.executeQuery(sql);
                 // membuat perulangan untuk mencetak data yang ada didalam sql ke dalam tabel
                 while (res.next()) {
-                    model.addRow(new Object[]{no++, res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)});
+                    model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
                 }
                 tabelKosan.setModel(model);
                 // membuat table menjadi responsif
@@ -391,6 +432,19 @@ public class MainActivity extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTampilWilayahActionPerformed
 
     private void btnFilterPenghuniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterPenghuniActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Username");
+        model.addColumn("Pemilik");
+        model.addColumn("Nama Kos");
+        model.addColumn("Jenis Kos");
+        model.addColumn("Deskripsi");
+        model.addColumn("Wilayah");
+        model.addColumn("Kontak");
+        model.addColumn("Alamat");
+        model.addColumn("Harga");
+
         //menampilkan data database kedalam tabel
         try {
             int no = 1;
@@ -403,7 +457,7 @@ public class MainActivity extends javax.swing.JFrame {
             java.sql.ResultSet res = stm.executeQuery(sql);
             // membuat perulangan untuk mencetak data yang ada didalam sql ke dalam tabel
             while (res.next()) {
-                model.addRow(new Object[]{no++, res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)});
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
             }
             tabelKosan.setModel(model);
             // membuat table menjadi responsif
@@ -413,6 +467,19 @@ public class MainActivity extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFilterPenghuniActionPerformed
 
     private void radiomurahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radiomurahActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Username");
+        model.addColumn("Pemilik");
+        model.addColumn("Nama Kos");
+        model.addColumn("Jenis Kos");
+        model.addColumn("Deskripsi");
+        model.addColumn("Wilayah");
+        model.addColumn("Kontak");
+        model.addColumn("Alamat");
+        model.addColumn("Harga");
+
         //menampilkan data database kedalam tabel
         try {
             int no = 1;
@@ -425,7 +492,7 @@ public class MainActivity extends javax.swing.JFrame {
             java.sql.ResultSet res = stm.executeQuery(sql);
             // membuat perulangan untuk mencetak data yang ada didalam sql ke dalam tabel
             while (res.next()) {
-                model.addRow(new Object[]{no++, res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)});
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
             }
             tabelKosan.setModel(model);
             // membuat table menjadi responsif
@@ -435,6 +502,19 @@ public class MainActivity extends javax.swing.JFrame {
     }//GEN-LAST:event_radiomurahActionPerformed
 
     private void radiomahalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radiomahalActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Username");
+        model.addColumn("Pemilik");
+        model.addColumn("Nama Kos");
+        model.addColumn("Jenis Kos");
+        model.addColumn("Deskripsi");
+        model.addColumn("Wilayah");
+        model.addColumn("Kontak");
+        model.addColumn("Alamat");
+        model.addColumn("Harga");
+
         //menampilkan data database kedalam tabel
         try {
             int no = 1;
@@ -447,7 +527,7 @@ public class MainActivity extends javax.swing.JFrame {
             java.sql.ResultSet res = stm.executeQuery(sql);
             // membuat perulangan untuk mencetak data yang ada didalam sql ke dalam tabel
             while (res.next()) {
-                model.addRow(new Object[]{no++, res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8)});
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
             }
             tabelKosan.setModel(model);
             // membuat table menjadi responsif
@@ -455,6 +535,41 @@ public class MainActivity extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_radiomahalActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Username");
+        model.addColumn("Pemilik");
+        model.addColumn("Nama Kos");
+        model.addColumn("Jenis Kos");
+        model.addColumn("Deskripsi");
+        model.addColumn("Wilayah");
+        model.addColumn("Kontak");
+        model.addColumn("Alamat");
+        model.addColumn("Harga");
+
+        //menampilkan data database kedalam tabel
+        try {
+            int no = 1;
+            // query sql untuk menampilkan semua data yang ada di table homey
+            String sql = "Select * From homey";
+            // penghubung koneksi ke localhost mysql
+            java.sql.Connection conn = (Connection) Koneksi.getConnection();
+            java.sql.Statement stm = conn.createStatement();
+            // mengeksekusi sql
+            java.sql.ResultSet res = stm.executeQuery(sql);
+            // membuat perulangan untuk mencetak data yang ada didalam sql ke dalam tabel
+            while (res.next()) {
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
+            }
+            tabelKosan.setModel(model);
+            // membuat table menjadi responsif
+            tabelKosan.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -499,6 +614,7 @@ public class MainActivity extends javax.swing.JFrame {
     private javax.swing.JButton btnFilterPenghuni;
     private javax.swing.JLabel btnPetunjuk;
     private javax.swing.JLabel btnProfile;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnTampilWilayah;
     private javax.swing.JLabel btnTentangKami;
     private javax.swing.JComboBox<String> jComboBox2;
