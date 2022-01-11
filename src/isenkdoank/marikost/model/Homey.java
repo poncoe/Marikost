@@ -8,43 +8,28 @@ package isenkdoank.marikost.model;
  *
  * @author poncoe
  */
-public class Homey {
-    int id, kontakpemilik, harga;
-    String username, pemilik, jeniskos, namakos, deskripsi, sisa, wilayah, alamat, gambar;
+public class Homey extends Pemilik {
+    int id, harga;
+    String jeniskos, namakos, deskripsi, sisa, wilayah, alamat;
 
-    public Homey(int id, String username, String pemilik, String jeniskos, String namakos, String deskripsi, String sisa, String wilayah, String alamat, int kontakpemilik, int harga, String gambar) {
+    public Homey(int id, String username, String pemilik, String jeniskos, String namakos, String deskripsi, String sisa, String wilayah, String alamat, int kontakpemilik, int harga, String statusmoderator) {
+        super(username, pemilik, kontakpemilik, statusmoderator);
         this.id = id;
-        this.username = username;
-        this.pemilik = pemilik;
         this.jeniskos = jeniskos;
         this.namakos = namakos;
         this.deskripsi = deskripsi;
         this.sisa = sisa;
         this.wilayah = wilayah;
         this.alamat = alamat;
-        this.kontakpemilik = kontakpemilik;
         this.harga = harga;
-        this.gambar = gambar;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getKontakPemilik() {
-        return kontakpemilik;
-    }
-
     public int getHarga() {
         return harga;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPemilik() {
-        return pemilik;
     }
 
     public String getJenisKos() {
@@ -69,9 +54,5 @@ public class Homey {
 
     public String getAlamat() {
         return alamat;
-    }
-
-    public String getGambar() {
-        return gambar;
     }
 }
