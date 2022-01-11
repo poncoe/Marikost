@@ -59,7 +59,6 @@ public class MainActivity extends javax.swing.JFrame {
         model.addColumn("Alamat");
         model.addColumn("Deksripsi");
         model.addColumn("Kontak Pemilik");
-        model.addColumn("Sisa Kamar");
         model.addColumn("Harga");
 
         tabelKosan.setModel(model);
@@ -70,10 +69,11 @@ public class MainActivity extends javax.swing.JFrame {
     private void populateTable() {
         model.setRowCount(0);
         try {
+            int no = 1;
             ArrayList<Homey> datakosan = koneksi.tampilData();
             for (Homey k : datakosan) {
-                Object[] isiData = {k.getId(), k.getNamaKos(), k.getPemilik(), k.getJenisKos(), k.getWilayah(),
-                    k.getAlamat(), k.getDeskripsi(), k.getKontakPemilik(), k.getSisa(), k.getHarga()};
+                Object[] isiData = {no++, k.getNamaKos(), k.getPemilik(), k.getJenisKos(), k.getWilayah(),
+                    k.getAlamat(), k.getDeskripsi(), k.getKontakPemilik(), k.getHarga()};
                 model.addRow(isiData);
             }
         } catch (SQLException ex) {
