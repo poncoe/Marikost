@@ -102,7 +102,7 @@ public class Data {
         con = koneksiData.getConnection();
 
         // membuat query untuk tambah data akun
-        String kueri = "INSERT INTO homey (username, pemilik, jenis_kost, nama_kost, deskripsi_kost, sisa, wilayah_kost, alamat, kontak_pemilik, harga, gambar) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String kueri = "INSERT INTO homey (username, pemilik, jenis_kost, nama_kost, deskripsi_kost, sisa, wilayah_kost, alamat, kontak_pemilik, harga, status_moderator) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
         PreparedStatement ps = con.prepareStatement(kueri);
@@ -116,7 +116,7 @@ public class Data {
         ps.setString(8, data.getAlamat());
         ps.setInt(9, data.getKontakPemilik());
         ps.setInt(10, data.getHarga());
-        ps.setString(11, data.getGambar());
+        ps.setString(11, data.getStatusModerator());
 
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();
@@ -135,7 +135,7 @@ public class Data {
         con = koneksiData.getConnection();
         
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
-        String kueri = "UPDATE homey SET nama_kost=?, deskripsi_kost=?, sisa=?, wilayah_kost=?, alamat=?, kontak_pemilik=?, harga=?, gambar=? WHERE id=?";
+        String kueri = "UPDATE homey SET nama_kost=?, deskripsi_kost=?, sisa=?, wilayah_kost=?, alamat=?, kontak_pemilik=?, harga=?, status_moderator=? WHERE id=?";
         PreparedStatement ps = con.prepareStatement(kueri);
 //        ps.setString(1, data.getUsername());
 //        ps.setString(2, data.getPemilik());
@@ -147,7 +147,7 @@ public class Data {
         ps.setString(5, data.getAlamat());
         ps.setInt(6, data.getKontakPemilik());
         ps.setInt(7, data.getHarga());
-        ps.setString(8, data.getGambar());
+        ps.setString(8, data.getStatusModerator());
         
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();
