@@ -9,15 +9,14 @@ package isenkdoank.marikost.model;
  * @author poncoe
  */
 public class Pemilik {
-    String username, pemilik, alamat, statusModerator;
+    String username, pemilik, alamat;
     int kontakpemilik;
     
-    public Pemilik(String username, String pemilik, int kontakpemilik, String alamat, String statusmoderator) {
+    public Pemilik(String username, String pemilik, int kontakpemilik, String alamat) {
         this.username = username;
         this.pemilik = pemilik;
         this.alamat = alamat;
         this.kontakpemilik = kontakpemilik;
-        this.statusModerator = statusmoderator;
     }
 
     public int getKontakPemilik() {
@@ -30,10 +29,6 @@ public class Pemilik {
 
     public String getPemilik() {
         return pemilik;
-    }
-
-    public String getStatusModerator() {
-        return statusModerator;
     }
 
     public String getAlamat() {
