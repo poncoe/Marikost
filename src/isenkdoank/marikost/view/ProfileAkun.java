@@ -4,6 +4,9 @@
  */
 package isenkdoank.marikost.view;
 
+import isenkdoank.marikost.controller.PassingDataController;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Bee
@@ -16,6 +19,9 @@ public class ProfileAkun extends javax.swing.JFrame {
     public ProfileAkun() {
         initComponents();
     }
+    
+    // Inisialisasi Controller Passing Data
+    private PassingDataController passdata = new PassingDataController();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -315,7 +321,13 @@ public class ProfileAkun extends javax.swing.JFrame {
     }//GEN-LAST:event_txtJenisKelaminActionPerformed
 
     private void btnDataKosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDataKosActionPerformed
-        // TODO add your handling code here:
+         String username = txtUsername.getText();
+
+        if (passdata.PassDataKos(username)) {
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Gagal Memuat Data!", "Peringatan!", 2);
+        }
     }//GEN-LAST:event_btnDataKosActionPerformed
 
     private void btnKembaliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKembaliActionPerformed
