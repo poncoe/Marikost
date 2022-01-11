@@ -74,15 +74,14 @@ public class Data {
             String jeniskos = rs.getString("jenis_kost");
             String namakos = rs.getString("nama_kost");
             String deskripsi = rs.getString("deskripsi_kost");
-            String sisakos = rs.getString("sisa");
             String wilayah = rs.getString("wilayah_kost");
             String alamat = rs.getString("alamat");
             int kontak = rs.getInt("kontak_penilik");
             int harga = rs.getInt("harga");
-            String gambar = rs.getString("gambar");
+            String statusmoderator = rs.getString("status_moderator");
 
-            Homey listdata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, sisakos, wilayah,
-            alamat, kontak, harga, gambar);
+            Homey listdata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, wilayah,
+            alamat, kontak, harga, statusmoderator);
             tampil.add(listdata);
         }
         
@@ -102,7 +101,7 @@ public class Data {
         con = koneksiData.getConnection();
 
         // membuat query untuk tambah data akun
-        String kueri = "INSERT INTO homey (username, pemilik, jenis_kost, nama_kost, deskripsi_kost, sisa, wilayah_kost, alamat, kontak_pemilik, harga, status_moderator) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String kueri = "INSERT INTO homey (username, pemilik, jenis_kost, nama_kost, deskripsi_kost, wilayah_kost, alamat, kontak_pemilik, harga, status_moderator) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
         PreparedStatement ps = con.prepareStatement(kueri);
@@ -111,12 +110,11 @@ public class Data {
         ps.setString(3, data.getJenisKos());
         ps.setString(4, data.getNamaKos());
         ps.setString(5, data.getDeskripsi());
-        ps.setString(6, data.getSisa());
-        ps.setString(7, data.getWilayah());
-        ps.setString(8, data.getAlamat());
-        ps.setInt(9, data.getKontakPemilik());
-        ps.setInt(10, data.getHarga());
-        ps.setString(11, data.getStatusModerator());
+        ps.setString(6, data.getWilayah());
+        ps.setString(7, data.getAlamat());
+        ps.setInt(8, data.getKontakPemilik());
+        ps.setInt(9, data.getHarga());
+        ps.setString(10, data.getStatusModerator());
 
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();
@@ -137,17 +135,16 @@ public class Data {
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
         String kueri = "UPDATE homey SET nama_kost=?, deskripsi_kost=?, sisa=?, wilayah_kost=?, alamat=?, kontak_pemilik=?, harga=?, status_moderator=? WHERE id=?";
         PreparedStatement ps = con.prepareStatement(kueri);
-//        ps.setString(1, data.getUsername());
-//        ps.setString(2, data.getPemilik());
-//        ps.setString(3, data.getJenisKos());
-        ps.setString(1, data.getNamaKos());
-        ps.setString(2, data.getDeskripsi());
-        ps.setString(3, data.getSisa());
-        ps.setString(4, data.getWilayah());
-        ps.setString(5, data.getAlamat());
-        ps.setInt(6, data.getKontakPemilik());
-        ps.setInt(7, data.getHarga());
-        ps.setString(8, data.getStatusModerator());
+        ps.setString(1, data.getUsername());
+        ps.setString(2, data.getPemilik());
+        ps.setString(3, data.getJenisKos());
+        ps.setString(4, data.getNamaKos());
+        ps.setString(5, data.getDeskripsi());
+        ps.setString(6, data.getWilayah());
+        ps.setString(7, data.getAlamat());
+        ps.setInt(8, data.getKontakPemilik());
+        ps.setInt(9, data.getHarga());
+        ps.setString(10, data.getStatusModerator());
         
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();
@@ -189,7 +186,8 @@ public class Data {
         //langkah 2
         String kueri = "SELECT * FROM homey WHERE wilayah LIKE ?";
         PreparedStatement ps = con.prepareStatement(kueri);
-        ps.setString(1, "%"+keyword+"%"); ps.setString(2, keyword);
+        ps.setString(1, "%"+keyword+"%"); 
+        ps.setString(2, keyword);
         ps.setString(3, keyword);  
         
         //langkah 3
@@ -203,15 +201,14 @@ public class Data {
             String jeniskos = rs.getString("jenis_kost");
             String namakos = rs.getString("nama_kost");
             String deskripsi = rs.getString("deskripsi_kost");
-            String sisakos = rs.getString("sisa");
             String wilayah = rs.getString("wilayah_kost");
             String alamat = rs.getString("alamat");
             int kontak = rs.getInt("kontak_penilik");
             int harga = rs.getInt("harga");
-            String gambar = rs.getString("gambar");
+            String statusmoderator = rs.getString("status_moderator");
 
-            Homey listcaridata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, sisakos, wilayah,
-            alamat, kontak, harga, gambar);
+            Homey listcaridata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, wilayah,
+            alamat, kontak, harga, statusmoderator);
             caridata.add(listcaridata);
         }
         
@@ -243,15 +240,14 @@ public class Data {
             String jeniskos = rs.getString("jenis_kost");
             String namakos = rs.getString("nama_kost");
             String deskripsi = rs.getString("deskripsi_kost");
-            String sisakos = rs.getString("sisa");
             String wilayah = rs.getString("wilayah_kost");
             String alamat = rs.getString("alamat");
             int kontak = rs.getInt("kontak_penilik");
             int harga = rs.getInt("harga");
-            String gambar = rs.getString("gambar");
+            String statusmoderator = rs.getString("status_moderator");
 
-            Homey listdata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, sisakos, wilayah,
-            alamat, kontak, harga, gambar);
+            Homey listdata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, wilayah,
+            alamat, kontak, harga, statusmoderator);
             tampil.add(listdata);
         }
         
@@ -286,15 +282,14 @@ public class Data {
             String jeniskos = rs.getString("jenis_kost");
             String namakos = rs.getString("nama_kost");
             String deskripsi = rs.getString("deskripsi_kost");
-            String sisakos = rs.getString("sisa");
             String wilayah = rs.getString("wilayah_kost");
             String alamat = rs.getString("alamat");
             int kontak = rs.getInt("kontak_penilik");
             int harga = rs.getInt("harga");
-            String gambar = rs.getString("gambar");
+            String statusmoderator = rs.getString("status_moderator");
 
-            Homey listdata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, sisakos, wilayah,
-            alamat, kontak, harga, gambar);
+            Homey listdata = new Homey(id, username, pemilik, jeniskos, namakos, deskripsi, wilayah,
+            alamat, kontak, harga, statusmoderator);
             tampil.add(listdata);
         }
         
