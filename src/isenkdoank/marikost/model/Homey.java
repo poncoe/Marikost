@@ -10,17 +10,16 @@ package isenkdoank.marikost.model;
  */
 public class Homey extends Pemilik {
     int id, harga;
-    String jeniskos, namakos, deskripsi, sisa, wilayah, alamat;
+    String jeniskos, namakos, deskripsi, sisa, wilayah;
 
     public Homey(int id, String username, String pemilik, String jeniskos, String namakos, String deskripsi, String sisa, String wilayah, String alamat, int kontakpemilik, int harga, String statusmoderator) {
-        super(username, pemilik, kontakpemilik, statusmoderator);
+        super(username, pemilik, kontakpemilik, alamat, statusmoderator);
         this.id = id;
         this.jeniskos = jeniskos;
         this.namakos = namakos;
         this.deskripsi = deskripsi;
         this.sisa = sisa;
         this.wilayah = wilayah;
-        this.alamat = alamat;
         this.harga = harga;
     }
 
@@ -50,9 +49,5 @@ public class Homey extends Pemilik {
 
     public String getWilayah() {
         return wilayah;
-    }
-
-    public String getAlamat() {
-        return alamat;
     }
 }
