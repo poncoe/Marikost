@@ -9,7 +9,7 @@ import isenkdoank.marikost.model.User;
 import isenkdoank.marikost.view.Login;
 import isenkdoank.marikost.view.MainActivity;
 import isenkdoank.marikost.view.Pembayaran;
-import isenkdoank.marikost.view.ProfileMitra;
+import isenkdoank.marikost.view.ProfileAkun;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -127,6 +127,7 @@ public class Auth {
                         mainAdmin.pack();
                         mainAdmin.setLocationRelativeTo(null);
                         mainAdmin.nama_user.setText("Hi, " + rs.getString("nama") + "");
+                        mainAdmin.label_username.setText("" + rs.getString("username") + "");
                         cekLogin = true;
 
                         // Jika Admin Belum Bayar ke Marikost
@@ -147,6 +148,7 @@ public class Auth {
                         mainUser.pack();
                         mainUser.setLocationRelativeTo(null);
                         mainUser.nama_user.setText("Hi, " + rs.getString("nama") + "");
+                        mainUser.label_username.setText("" + rs.getString("username") + "");
                         mainUser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                         cekLogin = true;
 
