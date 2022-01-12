@@ -60,12 +60,12 @@ public class MainActivity extends javax.swing.JFrame {
         model.addColumn("ID");
         model.addColumn("Username");
         model.addColumn("Pemilik");
-        model.addColumn("Nama Kos");
         model.addColumn("Jenis Kos");
+        model.addColumn("Nama Kos");
         model.addColumn("Deskripsi");
         model.addColumn("Wilayah");
-        model.addColumn("Kontak");
         model.addColumn("Alamat");
+        model.addColumn("Kontak");
         model.addColumn("Harga");
 
         //menampilkan data database kedalam tabel
@@ -80,7 +80,8 @@ public class MainActivity extends javax.swing.JFrame {
             java.sql.ResultSet res = stm.executeQuery(sql);
             // membuat perulangan untuk mencetak data yang ada didalam sql ke dalam tabel
             while (res.next()) {
-                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
+                model.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5), 
+                    res.getString(6), res.getString(7), res.getString(8), res.getString(9), res.getString(10)});
             }
             tabelKosan.setModel(model);
             // membuat table menjadi responsif
@@ -397,12 +398,12 @@ public class MainActivity extends javax.swing.JFrame {
         model.addColumn("ID");
         model.addColumn("Username");
         model.addColumn("Pemilik");
-        model.addColumn("Nama Kos");
         model.addColumn("Jenis Kos");
+        model.addColumn("Nama Kos");
         model.addColumn("Deskripsi");
         model.addColumn("Wilayah");
-        model.addColumn("Kontak");
         model.addColumn("Alamat");
+        model.addColumn("Kontak");
         model.addColumn("Harga");
 
         String wilayah = txtCariWilayah.getText();
@@ -437,12 +438,12 @@ public class MainActivity extends javax.swing.JFrame {
         model.addColumn("ID");
         model.addColumn("Username");
         model.addColumn("Pemilik");
-        model.addColumn("Nama Kos");
         model.addColumn("Jenis Kos");
+        model.addColumn("Nama Kos");
         model.addColumn("Deskripsi");
         model.addColumn("Wilayah");
-        model.addColumn("Kontak");
         model.addColumn("Alamat");
+        model.addColumn("Kontak");
         model.addColumn("Harga");
 
         //menampilkan data database kedalam tabel
@@ -472,12 +473,12 @@ public class MainActivity extends javax.swing.JFrame {
         model.addColumn("ID");
         model.addColumn("Username");
         model.addColumn("Pemilik");
-        model.addColumn("Nama Kos");
         model.addColumn("Jenis Kos");
+        model.addColumn("Nama Kos");
         model.addColumn("Deskripsi");
         model.addColumn("Wilayah");
-        model.addColumn("Kontak");
         model.addColumn("Alamat");
+        model.addColumn("Kontak");
         model.addColumn("Harga");
 
         //menampilkan data database kedalam tabel
@@ -507,12 +508,12 @@ public class MainActivity extends javax.swing.JFrame {
         model.addColumn("ID");
         model.addColumn("Username");
         model.addColumn("Pemilik");
-        model.addColumn("Nama Kos");
         model.addColumn("Jenis Kos");
+        model.addColumn("Nama Kos");
         model.addColumn("Deskripsi");
         model.addColumn("Wilayah");
-        model.addColumn("Kontak");
         model.addColumn("Alamat");
+        model.addColumn("Kontak");
         model.addColumn("Harga");
 
         //menampilkan data database kedalam tabel
@@ -542,12 +543,12 @@ public class MainActivity extends javax.swing.JFrame {
         model.addColumn("ID");
         model.addColumn("Username");
         model.addColumn("Pemilik");
-        model.addColumn("Nama Kos");
         model.addColumn("Jenis Kos");
+        model.addColumn("Nama Kos");
         model.addColumn("Deskripsi");
         model.addColumn("Wilayah");
-        model.addColumn("Kontak");
         model.addColumn("Alamat");
+        model.addColumn("Kontak");
         model.addColumn("Harga");
 
         //menampilkan data database kedalam tabel
