@@ -100,19 +100,20 @@ public class Data {
         con = koneksiData.getConnection();
 
         // membuat query untuk tambah data akun
-        String kueri = "INSERT INTO homey (username, pemilik, jenis_kost, nama_kost, deskripsi_kost, wilayah_kost, alamat, kontak_pemilik, harga) VALUES (?,?,?,?,?,?,?,?,?)";
+        String kueri = "INSERT INTO homey (id, username, pemilik, jenis_kost, nama_kost, deskripsi_kost, wilayah_kost, alamat, kontak_pemilik, harga) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
         PreparedStatement ps = con.prepareStatement(kueri);
-        ps.setString(1, data.getUsername());
-        ps.setString(2, data.getPemilik());
-        ps.setString(3, data.getJenisKos());
-        ps.setString(4, data.getNamaKos());
-        ps.setString(5, data.getDeskripsi());
-        ps.setString(6, data.getWilayah());
-        ps.setString(7, data.getAlamat());
-        ps.setInt(8, data.getKontakPemilik());
-        ps.setInt(9, data.getHarga());
+        ps.setString(1, data.getId());
+        ps.setString(2, data.getUsername());
+        ps.setString(3, data.getPemilik());
+        ps.setString(4, data.getJenisKos());
+        ps.setString(5, data.getNamaKos());
+        ps.setString(6, data.getDeskripsi());
+        ps.setString(7, data.getWilayah());
+        ps.setString(8, data.getAlamat());
+        ps.setInt(9, data.getKontakPemilik());
+        ps.setInt(10, data.getHarga());
 
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();
@@ -133,6 +134,7 @@ public class Data {
         // Menyiapkan database / memanipulasi data untuk dikiirm kedatabase untuk dieksekusi
         String kueri = "UPDATE homey SET username=?, pemilik=?, jenis_kost=?, nama_kost=?, deskripsi_kost=?, wilayah_kost=?, alamat=?, kontak_pemilik=?, harga=? WHERE id=?";
         PreparedStatement ps = con.prepareStatement(kueri);
+        ps.setString(10, data.getId());
         ps.setString(1, data.getUsername());
         ps.setString(2, data.getPemilik());
         ps.setString(3, data.getJenisKos());
@@ -142,7 +144,6 @@ public class Data {
         ps.setString(7, data.getAlamat());
         ps.setInt(8, data.getKontakPemilik());
         ps.setInt(9, data.getHarga());
-        ps.setString(10, data.getId());
         
         // mengeksekusi query
         int rowAffected = ps.executeUpdate();

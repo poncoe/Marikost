@@ -51,8 +51,9 @@ public class ProfileDataKos extends javax.swing.JFrame {
         setResizable(false);
 
         labelID.setVisible(false);
+        txtID.setEditable(true);
 
-        model.addColumn("ID");
+        model.addColumn("ID Kos/Kontrakan");
         model.addColumn("Username");
         model.addColumn("Pemilik");
         model.addColumn("Nama Kos");
@@ -75,6 +76,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
         kontak.setText("");
         txtAlamat.setText("");
         txtHarga.setText("");
+        txtID.setText("");
     }
 
     private Data koneksiData = new Data();
@@ -150,8 +152,10 @@ public class ProfileDataKos extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         txtHarga = new javax.swing.JTextField();
         labelID = new javax.swing.JLabel();
-        txtNamaMitra = new javax.swing.JTextField();
+        txtID = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
+        txtNamaMitra = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         btnKembali = new javax.swing.JButton();
         nama_mitra = new javax.swing.JLabel();
@@ -232,6 +236,15 @@ public class ProfileDataKos extends javax.swing.JFrame {
 
         jLabel15.setText("Harga : ");
 
+        txtID.setEditable(false);
+        txtID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setText("ID Kosan / Kontrakan");
+
         txtNamaMitra.setEditable(false);
         txtNamaMitra.setEnabled(false);
         txtNamaMitra.addActionListener(new java.awt.event.ActionListener() {
@@ -240,7 +253,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setText("Username Mitra :");
+        jLabel17.setText("Username Mitra :");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -269,9 +282,11 @@ public class ProfileDataKos extends javax.swing.JFrame {
                         .addComponent(txtPemilik)
                         .addComponent(jLabel15)
                         .addComponent(txtHarga)
-                        .addComponent(txtNamaMitra)
+                        .addComponent(txtID)
                         .addComponent(jLabel16)
-                        .addComponent(btnSimpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnSimpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtNamaMitra)
+                        .addComponent(jLabel17))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(boxJenisPenghuni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -312,6 +327,10 @@ public class ProfileDataKos extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNamaMitra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -399,7 +418,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -456,9 +475,10 @@ public class ProfileDataKos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 714, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 768, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -470,7 +490,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
         // berfungsi untuk menutup layout ini
         this.dispose();
 
-        String username = txtNamaMitra.getText();
+        String username = labelID.getText();
 
         if (passdata.PassDataProfil(username)) {
             this.dispose();
@@ -480,7 +500,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKembaliActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        String id = "";
+        String id = txtID.getText();
         String mitra = txtNamaMitra.getText();
         String pemilik = txtPemilik.getText();
         String namakos = nama_kost.getText();
@@ -552,6 +572,9 @@ public class ProfileDataKos extends javax.swing.JFrame {
         String kontakk = model.getValueAt(selectedRow, 7).toString();
         String alamat = model.getValueAt(selectedRow, 8).toString();
         String harga = model.getValueAt(selectedRow, 9).toString();
+        
+        txtID.setText(id);
+        txtID.setEditable(false);
 
         txtNamaMitra.setText(mitra);
         txtNamaMitra.setEditable(false);
@@ -575,6 +598,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
         // panggil prosedur penghapus/reset
         penghapus();
         btnSimpan.setText("Simpan");
+        txtID.setEditable(true);
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
@@ -596,6 +620,10 @@ public class ProfileDataKos extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDActionPerformed
 
     private void txtNamaMitraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNamaMitraActionPerformed
         // TODO add your handling code here:
@@ -659,6 +687,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -680,6 +709,7 @@ public class ProfileDataKos extends javax.swing.JFrame {
     private javax.swing.JTable tabelKosan;
     private javax.swing.JTextField txtAlamat;
     private javax.swing.JTextField txtHarga;
+    public javax.swing.JTextField txtID;
     public javax.swing.JTextField txtNamaMitra;
     public javax.swing.JTextField txtPemilik;
     private javax.swing.JTextField wilayah;
