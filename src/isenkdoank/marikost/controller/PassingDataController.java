@@ -160,6 +160,7 @@ public class PassingDataController {
                     mainData.pack();
                     mainData.setLocationRelativeTo(null);
                     mainData.labelID.setText("" + rs.getString("username") + "");
+                    mainData.txtNamaMitra.setText("" + rs.getString("username") + "");
                     mainData.txtPemilik.setText("" + rs.getString("nama") + "");
                     mainData.nama_mitra.setText("Hi, " + rs.getString("nama") + "");
                     cekData = true;
